@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Snippet Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e1e; 
+            color: #d4d4d4; 
+            text-align: center;
+        }
+        header {
+            background-color: #2d2d2d; 
+            color: #ffffff;
+            padding: 20px;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background-color: #1e1e1e; 
+            border: 1px solid #3c3c3c; 
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); 
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 800px;
+            text-align: left;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #569cd6; 
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #3c3c3c; 
+            border-radius: 4px;
+            background-color: #1e1e1e; 
+            color: #d4d4d4; 
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+        }
+        select {
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #3c3c3c; 
+            border-radius: 4px;
+            background-color: #2d2d2d; 
+            color: #d4d4d4; 
+            font-size: 14px;
+        }
+        button {
+            background-color: #007acc; 
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #005bb5; 
+        }
+        iframe {
+            width: 100%;
+            height: 300px;
+            border: 1px solid #3c3c3c; 
+            border-radius: 4px;
+            margin-top: 20px;
+            background-color: #1e1e1e; 
+            color: #d4d4d4; 
+        }
+        footer {
+            background-color: #2d2d2d; 
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Code Snippet Generator</h1>
+        <p>Tulis Kode dan Lihat Hasilnya Secara Langsung!</p>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>Mulai Coding</h2>
+            <select id="language">
+                <option value="html">HTML</option>
+                <option value="css">CSS</option>
+                <option value="javascript">JavaScript</option>
+            </select>
+            <textarea id="codeInput" placeholder="Tulis kode Anda di sini..."></textarea>
+            <button onclick="runCode()">Jalankan Kode</button>
+            <iframe id="output"></iframe>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Code Snippet Generator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function runCode() {
+            const code = document.getElementById('codeInput').value.trim();
+            const language = document.getElementById('language').value;
+            const outputFrame = document.getElementById('output');
+            const outputDoc = outputFrame.contentDocument || outputFrame.contentWindow.document;
+
+            if (!code) {
+                alert("Silakan masukkan kode terlebih dahulu!");
+                return;
+            }
+
+            outputDoc.open();
+            outputDoc.write('');
+
+            try {
+                if (language === 'html') {
+                    outputDoc.write(code);
+                } else if (language === 'css') {
+                    outputDoc.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <style>${code}</style>
+                        </head>
+                        <body>
+                            <div style="padding: 20px;">Lihat efek CSS di sini!</div>
+                        </body>
+                        </html>
+                    `);
+                } else if (language === 'javascript') {
+                    outputDoc.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <script>${code}<\/script>
+                        </head>
+                        <body>
+                            <div style="padding: 20px;">Lihat hasil JavaScript di konsol browser (tekan F12).</div>
+                        </body>
+                        </html>
+                    `);
+                }
+            } catch (error) {
+                alert("Terjadi kesalahan saat menjalankan kode: " + error.message);
+            }
+
+            outputDoc.close();
+        }
+    </script>
+</body>
+</html>
